@@ -1,10 +1,9 @@
 export class ResponseDto {
-    public code: number;
-    public message: any;
+    public message: string;
+    public data: any;
 
-    constructor(code: number, message: any) {
-        this.code = code;
+    constructor(message: string, data: any) {
         this.message = message;
+        this.data = data;
     }
-    
 }

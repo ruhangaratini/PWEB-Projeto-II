@@ -1,5 +1,5 @@
 import express from 'express';
-import { RegisterRoutes } from './route/routes';
+import { RegisterRoutes } from './routes/routes';
 import { setupSwagger } from './config/Swagger';
 
 const app = express();
@@ -15,4 +15,4 @@ app.use('/', router);
 RegisterRoutes(app);
 setupSwagger(app);
 
-app.listen(PORT, ()=> console.log("API online na porta: " + PORT));
+app.listen(PORT, () => console.log("API online na porta: " + PORT));
