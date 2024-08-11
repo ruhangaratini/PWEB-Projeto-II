@@ -1,8 +1,9 @@
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { MySql } from "../database/mysql";
-import { CategoryDto } from "../model/dto/CategoryDto";
-import { ErrorDto } from "../model/dto/ErrorDto";
+import { ErrorCode } from "../model/ErrorCode";
 import { CategoryEntity } from "../model/entity/CategoryEntity";
+import KSUID from "ksuid";
+import { CreateCategoryDto } from "../model/dto/category/CreateCategory";
 
 export class CategoryRepository {
     private static instance: CategoryRepository;
@@ -23,8 +24,8 @@ export class CategoryRepository {
     private async createTable() {
         const response = await this.db.query(
             `CREATE TABLE IF NOT EXISTS category (
-            id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            name VARCHAR(255) NOT NULL
+                id VARCHAR(27) NOT NULL PRIMARY KEY,
+                name VARCHAR(255) NOT NULL
         )`);
 
         if (response instanceof Error) {
@@ -32,12 +33,25 @@ export class CategoryRepository {
         }
     }
 
-    public async create(category: CategoryDto): Promise<CategoryEntity | ErrorDto> {
-        const response = <ResultSetHeader>await this.db.query(`INSERT INTO category (name) VALUES (?)`, [category.name]);
+    public async create(category: CreateCategoryDto): Promise<CategoryEntity | ErrorCode> {
+        const uuid: string = KSUID.randomSync().string;
+        const response = <ResultSetHeader | ErrorCode>await this.db.query(`INSERT INTO category (id, name) VALUES (?, ?)`, [uuid, category.name]);
 
-        if (response instanceof Error)
-            return new ErrorDto(500, 'Ocorreu um erro ao inserir nova categoria');
+        if (response instanceof ErrorCode)
+            return response;
 
-        return new CategoryEntity(response.insertId, category.name);
+        return new CategoryEntity(uuid, category.name);
+    }
+
+    public async searchByID(id: string): Promise<CategoryEntity | ErrorCode> {
+        const response = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE id = ?`, [id]);
+
+        if (response instanceof ErrorCode)
+            return response;
+
+        if (response.length == 0)
+            return new ErrorCode(404, 'Categoria não encontrada');
+
+        return new CategoryEntity(response[0].id, response[0].name);
     }
 }

@@ -1,4 +1,5 @@
 import mysql, { Pool } from 'mysql2/promise';
+import { ErrorCode } from '../model/ErrorCode';
 
 export class MySql {
     private static instance: MySql;
@@ -22,11 +23,12 @@ export class MySql {
         return MySql.instance;
     }
 
-    public async query(query: string, values?: any[]): Promise<mysql.QueryResult | Error> {
+    public async query(query: string, values?: any[]): Promise<mysql.QueryResult | ErrorCode> {
         try {
             return (await this.pool.query(query, values))[0];
         } catch (error: any) {
-            return new Error(error);
+            console.error('Query: ', query);
+            return new ErrorCode(500, 'Ocorreu um erro ao se conectar ao banco');
         }
     }
 }

@@ -11,7 +11,7 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "CategoryDto": {
+    "CreateCategoryDto": {
         "dataType": "refObject",
         "properties": {
             "name": {"dataType":"string","required":true},
@@ -23,7 +23,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "message": {"dataType":"string","required":true},
-            "data": {"dataType":"any","required":true},
+            "data": {"dataType":"any"},
         },
         "additionalProperties": false,
     },
@@ -51,8 +51,9 @@ export function RegisterRoutes(app: Router) {
 
             async function CategoryController_registerCategory(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
-                    dto: {"in":"body","name":"dto","required":true,"ref":"CategoryDto"},
+                    dto: {"in":"body","name":"dto","required":true,"ref":"CreateCategoryDto"},
                     fail: {"in":"res","name":"500","required":true,"ref":"ResponseDto"},
+                    badRequest: {"in":"res","name":"400","required":true,"ref":"ResponseDto"},
                     success: {"in":"res","name":"201","required":true,"ref":"ResponseDto"},
             };
 
@@ -66,6 +67,38 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'registerCategory',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/category/:categoryID',
+            ...(fetchMiddlewares<RequestHandler>(CategoryController)),
+            ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.getCategoryByID)),
+
+            async function CategoryController_getCategoryByID(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    categoryID: {"in":"path","name":"categoryID","required":true,"dataType":"string"},
+                    notFound: {"in":"res","name":"404","required":true,"ref":"ResponseDto"},
+                    success: {"in":"res","name":"200","required":true,"ref":"ResponseDto"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new CategoryController();
+
+              await templateService.apiHandler({
+                methodName: 'getCategoryByID',
                 controller,
                 response,
                 next,

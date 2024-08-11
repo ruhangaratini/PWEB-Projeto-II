@@ -1,4 +1,4 @@
-export class CategoryDto {
+export class CreateCategoryDto {
     public name: string;
 
     constructor(name: string) {

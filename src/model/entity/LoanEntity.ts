@@ -1,11 +1,11 @@
 export class LoanEntity {
-    private id: number;
-    private bookID: number;
-    private userID: number;
+    private id: string;
+    private bookID: string;
+    private userID: string;
     private loadDate: Date;
     public returnDate: Date;
 
-    constructor(id: number, bookID: number, userID: number, loadDate: Date, returnDate: Date) {
+    constructor(id: string, bookID: string, userID: string, loadDate: Date, returnDate: Date) {
         this.id = id;
         this.bookID = bookID;
         this.userID = userID;
@@ -13,15 +13,15 @@ export class LoanEntity {
         this.returnDate = returnDate;
     }
 
-    public get getID(): number {
+    public get getID(): string {
         return this.id;
     }
 
-    public get getBookID(): number {
+    public get getBookID(): string {
         return this.bookID;
     }
 
-    public get getUserID(): number {
+    public get getUserID(): string {
         return this.userID;
     }
 

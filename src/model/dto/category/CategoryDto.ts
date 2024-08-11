@@ -1,4 +1,4 @@
-export class CategoryEntity {
+export class CategoryDto {
     private id: string;
     public name: string;
 

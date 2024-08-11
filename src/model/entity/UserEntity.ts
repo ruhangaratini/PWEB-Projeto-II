@@ -1,13 +1,13 @@
 export class UserEntity  {
-    private id: number;
+    private id: string;
     public password: string;
 
-    constructor(id: number, password: string) {
+    constructor(id: string, password: string) {
         this.id = id;
         this.password = password;
     }
 
-    public get getID(): number {
+    public get getID(): string {
         return this.id;
     }
 
