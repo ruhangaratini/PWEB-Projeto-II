@@ -1,4 +1,4 @@
-import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { ResultSetHeader } from "mysql2";
 import { MySql } from "../database/mysql";
 import { ErrorCode } from "../model/ErrorCode";
 import { CategoryEntity } from "../model/entity/CategoryEntity";
@@ -53,7 +53,19 @@ export class CategoryRepository {
         if (response.length == 0)
             return new ErrorCode(404, 'Categoria não encontrada');
 
-        return response[0];
+        return new CategoryEntity(response[0].id, response[0].name);
+    }
+
+    public async getByName(name: string): Promise<CategoryEntity | ErrorCode> {
+        const response = <CategoryEntity[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE name = ?`, [name]);
+
+        if (response instanceof ErrorCode)
+            return response;
+
+        if (response.length == 0)
+            return new ErrorCode(404, 'Categoria não encontrada');
+
+        return new CategoryEntity(response[0].id, response[0].name);
     }
 
     public async getAll(): Promise<CategoryEntity[] | ErrorCode> {
@@ -73,7 +85,7 @@ export class CategoryRepository {
 
         const categoryEntity = <CategoryEntity[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE id = ?`, [category.id]);
 
-        if(categoryEntity instanceof ErrorCode)
+        if (categoryEntity instanceof ErrorCode)
             return categoryEntity;
 
         return categoryEntity[0];
@@ -82,7 +94,7 @@ export class CategoryRepository {
     public async delete(id: string): Promise<string | ErrorCode> {
         const response = <ResultSetHeader | ErrorCode>await this.db.query(`DELETE FROM category WHERE id = ?`, [id]);
 
-        if(response instanceof ErrorCode)
+        if (response instanceof ErrorCode)
             return response;
 
         if (response.affectedRows == 0)

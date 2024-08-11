@@ -1,4 +1,4 @@
-export class BookEntity {
+export class BookDto {
     public readonly id: string;
     public categoryID: string;
     public title: string;

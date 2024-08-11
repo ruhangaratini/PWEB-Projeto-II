@@ -113,6 +113,109 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"CreateBookDto": {
+				"properties": {
+					"categoryID": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"categoryID",
+					"title",
+					"author"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BookEntity": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"categoryID": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"categoryID",
+					"title",
+					"author"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_BookEntity_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/BookEntity"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_BookEntity-Array_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/BookEntity"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BookDto": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"categoryID": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"categoryID",
+					"title",
+					"author"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -322,6 +425,213 @@
 					{
 						"in": "path",
 						"name": "categoryID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/book": {
+			"post": {
+				"operationId": "RegisterBook",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_BookEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Book"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateBookDto"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetBooks",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_BookEntity-Array_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"500": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Book"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "UpdateBook",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_BookEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Book"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/BookDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/book/{bookID}": {
+			"get": {
+				"operationId": "GetBookByID",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_BookEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Book"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "bookID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteBook",
+				"responses": {
+					"202": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_string_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Book"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "bookID",
 						"required": true,
 						"schema": {
 							"type": "string"

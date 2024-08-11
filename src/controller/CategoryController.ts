@@ -1,15 +1,15 @@
-import { Body, Controller, Delete, Get, Path, Post, Put, Query, Res, Route, Tags, TsoaResponse } from "tsoa";
+import { Body, Controller, Delete, Get, Path, Post, Put, Res, Route, Tags, TsoaResponse } from "tsoa";
 import { ErrorCode } from "../model/ErrorCode";
 import { BaseResponseDto } from "../model/dto/BaseResponseDto";
-import { createCategoryService } from "../service/category/createCategoryService";
+import { createCategoryService } from "../service/category/CreateCategoryService";
 import { CreateCategoryDto } from "../model/dto/category/CreateCategory";
-import { getCategoryByIDService } from "../service/category/getCategoryByIDService";
+import { getCategoryByIDService } from "../service/category/GetCategoryByIDService";
 import { CategoryEntity } from "../model/entity/CategoryEntity";
 import { BaseErrorResponseDto } from "../model/dto/BaseErrorResponseDto";
-import { getCategoriesService } from "../service/category/getCategoriesService";
+import { getCategoriesService } from "../service/category/GetCategoriesService";
 import { CategoryDto } from "../model/dto/category/CategoryDto";
-import { updateCategoryService } from "../service/category/updateCategoryService";
-import { deleteCategoryService } from "../service/category/deleteCategoryService";
+import { updateCategoryService } from "../service/category/UpdateCategoryService";
+import { deleteCategoryService } from "../service/category/DeleteCategoryService";
 
 @Route('category')
 @Tags('Category')
@@ -23,10 +23,12 @@ export class CategoryController extends Controller {
     ): Promise<void> {
         const response = await createCategoryService(dto);
 
-        if (response instanceof ErrorCode)
+        if (response instanceof ErrorCode) {
             fail(400, new BaseErrorResponseDto(response.message));
+            return;
+        }
 
-        success(201, new BaseResponseDto('Categoria criada com sucesso!', <CategoryEntity>response));
+        success(201, new BaseResponseDto('Categoria registrada com sucesso!', response));
     }
 
     @Get('{categoryID}')
@@ -37,23 +39,27 @@ export class CategoryController extends Controller {
     ): Promise<void> {
         const response = await getCategoryByIDService(categoryID);
 
-        if (response instanceof ErrorCode)
+        if (response instanceof ErrorCode) {
             notFound(404, new BaseErrorResponseDto(response.message));
+            return;
+        }
 
-        success(200, new BaseResponseDto('Categoria encontrada!', <CategoryEntity>response));
+        success(200, new BaseResponseDto('Categoria encontrada!', response));
     }
 
     @Get()
     public async getCategories(
-        @Res() notFound: TsoaResponse<500, BaseErrorResponseDto>,
+        @Res() fail: TsoaResponse<500, BaseErrorResponseDto>,
         @Res() success: TsoaResponse<200, BaseResponseDto<CategoryEntity[]>>
     ): Promise<void> {
         const response = await getCategoriesService();
 
-        if (response instanceof ErrorCode)
-            notFound(500, new BaseErrorResponseDto(response.message));
+        if (response instanceof ErrorCode) {
+            fail(500, new BaseErrorResponseDto(response.message));
+            return;
+        }
 
-        success(200, new BaseResponseDto('Listando Categorias!', <CategoryEntity[]>response));
+        success(200, new BaseResponseDto('Listando Categorias!', response));
     }
 
     @Put()
@@ -64,10 +70,12 @@ export class CategoryController extends Controller {
     ): Promise<void> {
         const response = await updateCategoryService(dto);
 
-        if (response instanceof ErrorCode)
+        if (response instanceof ErrorCode) {
             fail(400, new BaseErrorResponseDto(response.message));
+            return;
+        }
 
-        success(200, new BaseResponseDto('Categoria atualizada com sucesso!', <CategoryEntity>response));
+        success(200, new BaseResponseDto('Categoria atualizada com sucesso!', response));
     }
 
     @Delete('{categoryID}')
@@ -78,9 +86,11 @@ export class CategoryController extends Controller {
     ): Promise<void> {
         const response = await deleteCategoryService(categoryID);
 
-        if (response instanceof ErrorCode)
+        if (response instanceof ErrorCode) {
             fail(400, new BaseErrorResponseDto(response.message));
+            return;
+        }
 
-        success(202, new BaseResponseDto('Categoria deletada com sucesso!', <string>response));
+        success(202, new BaseResponseDto('Categoria deletada com sucesso!', response));
     }
 }
