@@ -19,15 +19,97 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"ResponseDto": {
+			"BaseErrorResponseDto": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CategoryEntity": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_CategoryEntity_": {
 				"properties": {
 					"message": {
 						"type": "string"
 					},
-					"data": {}
+					"data": {
+						"$ref": "#/components/schemas/CategoryEntity"
+					}
 				},
 				"required": [
-					"message"
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_CategoryEntity-Array_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/CategoryEntity"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CategoryDto": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_string_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message",
+					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -50,7 +132,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ResponseDto"
+									"$ref": "#/components/schemas/BaseResponseDto_CategoryEntity_"
 								}
 							}
 						}
@@ -63,17 +145,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ResponseDto"
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ResponseDto"
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
 								}
 							}
 						}
@@ -94,6 +166,82 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"operationId": "GetCategories",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_CategoryEntity-Array_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"500": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Category"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "UpdateCategory",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_CategoryEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Category"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CategoryDto"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/category/{categoryID}": {
@@ -105,7 +253,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ResponseDto"
+									"$ref": "#/components/schemas/BaseResponseDto_CategoryEntity_"
 								}
 							}
 						}
@@ -118,7 +266,49 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ResponseDto"
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Category"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteCategory",
+				"responses": {
+					"202": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_string_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
 								}
 							}
 						}
