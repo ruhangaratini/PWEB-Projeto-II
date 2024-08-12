@@ -7,14 +7,18 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"CreateCategoryDto": {
+			"CreatePersonDto": {
 				"properties": {
 					"name": {
+						"type": "string"
+					},
+					"email": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"name"
+					"name",
+					"email"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -27,6 +31,109 @@
 				},
 				"required": [
 					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PersonEntity": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_PersonEntity_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/PersonEntity"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_PersonEntity-Array_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/PersonEntity"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PersonDto": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_string_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateCategoryDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -94,22 +201,6 @@
 				"required": [
 					"id",
 					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"BaseResponseDto_string_": {
-				"properties": {
-					"message": {
-						"type": "string"
-					},
-					"data": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"message",
-					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -226,6 +317,213 @@
 		"description": "Documentação da API usando Swagger"
 	},
 	"paths": {
+		"/person": {
+			"post": {
+				"operationId": "RegisterPerson",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_PersonEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Person"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreatePersonDto"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetPersons",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_PersonEntity-Array_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"500": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Person"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "UpdateBook",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_PersonEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Person"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PersonDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/person/{personID}": {
+			"get": {
+				"operationId": "GetPersonByID",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_PersonEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Person"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "personID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteBook",
+				"responses": {
+					"202": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_string_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Person"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "personID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/category": {
 			"post": {
 				"operationId": "RegisterCategory",

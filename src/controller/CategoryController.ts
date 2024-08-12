@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Path, Post, Put, Res, Route, Tags, TsoaR
 import { ErrorCode } from "../model/ErrorCode";
 import { BaseResponseDto } from "../model/dto/BaseResponseDto";
 import { createCategoryService } from "../service/category/CreateCategoryService";
-import { CreateCategoryDto } from "../model/dto/category/CreateCategory";
+import { CreateCategoryDto } from "../model/dto/category/CreateCategoryDto";
 import { getCategoryByIDService } from "../service/category/GetCategoryByIDService";
 import { CategoryEntity } from "../model/entity/CategoryEntity";
 import { BaseErrorResponseDto } from "../model/dto/BaseErrorResponseDto";

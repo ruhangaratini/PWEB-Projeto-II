@@ -1,9 +1,10 @@
 import { ResultSetHeader } from "mysql2";
+import KSUID from "ksuid";
+
 import { MySql } from "../database/mysql";
 import { ErrorCode } from "../model/ErrorCode";
 import { CategoryEntity } from "../model/entity/CategoryEntity";
-import KSUID from "ksuid";
-import { CreateCategoryDto } from "../model/dto/category/CreateCategory";
+import { CreateCategoryDto } from "../model/dto/category/CreateCategoryDto";
 import { CategoryDto } from "../model/dto/category/CategoryDto";
 
 export class CategoryRepository {
@@ -81,7 +82,7 @@ export class CategoryRepository {
             return response;
 
         if (response.affectedRows == 0)
-            return new ErrorCode(400, 'Categoria não encontrada');
+            return new ErrorCode(404, 'Categoria não encontrada');
 
         const categoryEntity = <CategoryEntity[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE id = ?`, [category.id]);
 

@@ -1,7 +1,7 @@
 export class LoanEntity {
-    private id: string;
-    private bookID: string;
-    private userID: string;
+    public readonly id: string;
+    public bookID: string;
+    public userID: string;
     private loadDate: Date;
     public returnDate: Date;
 

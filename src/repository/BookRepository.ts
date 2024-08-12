@@ -1,10 +1,8 @@
 import { ResultSetHeader } from "mysql2";
+import KSUID from "ksuid";
+
 import { MySql } from "../database/mysql";
 import { ErrorCode } from "../model/ErrorCode";
-import { CategoryEntity } from "../model/entity/CategoryEntity";
-import KSUID from "ksuid";
-import { CreateCategoryDto } from "../model/dto/category/CreateCategory";
-import { CategoryDto } from "../model/dto/category/CategoryDto";
 import { CreateBookDto } from "../model/dto/book/CreateBookDto";
 import { BookEntity } from "../model/entity/BookEntity";
 import { BookDto } from "../model/dto/book/BookDto";
@@ -83,7 +81,7 @@ export class BookRepository {
             return response;
 
         if (response.affectedRows == 0)
-            return new ErrorCode(400, 'Livro não encontrado');
+            return new ErrorCode(404, 'Livro não encontrado');
 
         const bookEntity = <BookEntity[] | ErrorCode>await this.db.query(`SELECT * FROM book WHERE id = ?`, [book.id]);
 

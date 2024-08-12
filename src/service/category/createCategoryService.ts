@@ -1,4 +1,4 @@
-import { CreateCategoryDto } from "../../model/dto/category/CreateCategory";
+import { CreateCategoryDto } from "../../model/dto/category/CreateCategoryDto";
 import { ErrorCode } from "../../model/ErrorCode";
 import { CategoryEntity } from "../../model/entity/CategoryEntity";
 import { CategoryRepository } from "../../repository/CategoryRepository";
