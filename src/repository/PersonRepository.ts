@@ -1,4 +1,4 @@
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import KSUID from "ksuid";
 
 import { MySql } from "../database/mysql";
@@ -48,7 +48,7 @@ export class PersonRepository {
     }
 
     public async getByID(id: string): Promise<PersonEntity | ErrorCode> {
-        const response = <PersonEntity[] | ErrorCode>await this.db.query(`SELECT * FROM person WHERE id = ?`, [id]);
+        const response = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM person WHERE id = ?`, [id]);
 
         if (response instanceof ErrorCode)
             return response;
@@ -56,11 +56,11 @@ export class PersonRepository {
         if (response.length == 0)
             return new ErrorCode(404, 'Pessoa não encontrada');
 
-        return response[0];
+        return new PersonEntity(response[0].id, response[0].name, response[0].email);
     }
 
-    public async getAll(): Promise<PersonEntity[] | ErrorCode> {
-        const response = <PersonEntity[] | ErrorCode>await this.db.query(`SELECT * FROM person`);
+    public async getAll(): Promise<any[] | ErrorCode> {
+        const response = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM person`);
 
         return response;
     }
@@ -75,12 +75,12 @@ export class PersonRepository {
         if (response.affectedRows == 0)
             return new ErrorCode(404, 'Pessoa não encontrada');
 
-        const personEntity = <PersonEntity[] | ErrorCode>await this.db.query(`SELECT * FROM person WHERE id = ?`, [person.id]);
+        const personEntity = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM person WHERE id = ?`, [person.id]);
 
         if (personEntity instanceof ErrorCode)
             return personEntity;
 
-        return personEntity[0];
+        return new PersonEntity(personEntity[0].id, personEntity[0].name, personEntity[0].email);
     }
 
     public async delete(id: string): Promise<string | ErrorCode> {

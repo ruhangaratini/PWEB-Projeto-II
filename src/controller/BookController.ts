@@ -23,7 +23,7 @@ export class BookController extends Controller {
     ): Promise<void> {
         const response = await createBookService(dto);
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             fail(400, new BaseErrorResponseDto(response.message));
             return;
         }
@@ -39,7 +39,7 @@ export class BookController extends Controller {
     ): Promise<void> {
         const response = await getBookByIDService(bookID);
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             notFound(404, new BaseErrorResponseDto(response.message));
             return;
         }
@@ -54,7 +54,7 @@ export class BookController extends Controller {
     ): Promise<void> {
         const response = await getBooksService();
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             fail(500, new BaseErrorResponseDto(response.message));
             return;
         }
@@ -70,7 +70,7 @@ export class BookController extends Controller {
     ): Promise<void> {
         const response = await updateBookService(dto);
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             fail(400, new BaseErrorResponseDto(response.message));
             return;
         }
@@ -86,7 +86,7 @@ export class BookController extends Controller {
     ): Promise<void> {
         const response = await deleteBookService(bookID);
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             fail(400, new BaseErrorResponseDto(response.message));
             return;
         }

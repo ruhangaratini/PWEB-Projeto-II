@@ -23,7 +23,7 @@ export class PersonController extends Controller {
     ): Promise<void> {
         const response = await createPersonService(dto);
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             fail(400, new BaseErrorResponseDto(response.message));
             return;
         }
@@ -39,7 +39,7 @@ export class PersonController extends Controller {
     ): Promise<void> {
         const response = await getPersonByIDService(personID);
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             notFound(404, new BaseErrorResponseDto(response.message));
             return;
         }
@@ -54,7 +54,7 @@ export class PersonController extends Controller {
     ): Promise<void> {
         const response = await getPersonsService();
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             fail(500, new BaseErrorResponseDto(response.message));
             return;
         }
@@ -63,14 +63,14 @@ export class PersonController extends Controller {
     }
 
     @Put()
-    public async updateBook(
+    public async updatePerson(
         @Body() dto: PersonDto,
         @Res() fail: TsoaResponse<400, BaseErrorResponseDto>,
         @Res() success: TsoaResponse<200, BaseResponseDto<PersonEntity>>
     ): Promise<void> {
         const response = await updatePersonService(dto);
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             fail(400, new BaseErrorResponseDto(response.message));
             return;
         }
@@ -79,14 +79,14 @@ export class PersonController extends Controller {
     }
 
     @Delete('{personID}')
-    public async deleteBook(
+    public async deletePerson(
         @Path() personID: string,
         @Res() fail: TsoaResponse<400, BaseErrorResponseDto>,
         @Res() success: TsoaResponse<202, BaseResponseDto<string>>
     ): Promise<void> {
         const response = await deletePersonService(personID);
 
-        if(response instanceof ErrorCode) {
+        if (response instanceof ErrorCode) {
             fail(400, new BaseErrorResponseDto(response.message));
             return;
         }

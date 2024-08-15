@@ -1,4 +1,4 @@
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import KSUID from "ksuid";
 
 import { MySql } from "../database/mysql";
@@ -50,7 +50,7 @@ export class BookRepository {
     }
 
     public async getByID(id: string): Promise<BookEntity | ErrorCode> {
-        const response = <BookEntity[] | ErrorCode>await this.db.query(`SELECT * FROM book WHERE id = ?`, [id]);
+        const response = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM book WHERE id = ?`, [id]);
 
         if (response instanceof ErrorCode)
             return response;
@@ -58,17 +58,17 @@ export class BookRepository {
         if (response.length == 0)
             return new ErrorCode(404, 'Livro não encontrado');
 
-        return response[0];
+        return new BookEntity(response[0].id, response[0].categoryID, response[0].title, response[0].author);
     }
 
-    public async getAll(): Promise<BookEntity[] | ErrorCode> {
-        const response = <BookEntity[] | ErrorCode>await this.db.query(`SELECT * FROM book`);
+    public async getAll(): Promise<any[] | ErrorCode> {
+        const response = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM book`);
 
         return response;
     }
 
-    public async getByCategory(categoryID: string): Promise<BookEntity[] | ErrorCode> {
-        const response = <BookEntity[] | ErrorCode>await this.db.query(`SELECT * FROM book WHERE categoryID = ?`, [categoryID]);
+    public async getByCategory(categoryID: string): Promise<any[] | ErrorCode> {
+        const response = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM book WHERE categoryID = ?`, [categoryID]);
 
         return response;
     }
@@ -83,12 +83,12 @@ export class BookRepository {
         if (response.affectedRows == 0)
             return new ErrorCode(404, 'Livro não encontrado');
 
-        const bookEntity = <BookEntity[] | ErrorCode>await this.db.query(`SELECT * FROM book WHERE id = ?`, [book.id]);
+        const bookEntity = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM book WHERE id = ?`, [book.id]);
 
         if (bookEntity instanceof ErrorCode)
             return bookEntity;
 
-        return bookEntity[0];
+        return new BookEntity(bookEntity[0].id, bookEntity[0].categoryID, bookEntity[0].title, bookEntity[0].author);
     }
 
     public async delete(id: string): Promise<string | ErrorCode> {

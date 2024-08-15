@@ -1,4 +1,4 @@
-export class UserEntity {
+export class UserDto {
     public readonly id: string;
     public personID: string;
     public password: string;

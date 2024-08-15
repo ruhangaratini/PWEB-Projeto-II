@@ -1,4 +1,4 @@
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import KSUID from "ksuid";
 
 import { MySql } from "../database/mysql";
@@ -46,7 +46,7 @@ export class CategoryRepository {
     }
 
     public async getByID(id: string): Promise<CategoryEntity | ErrorCode> {
-        const response = <CategoryEntity[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE id = ?`, [id]);
+        const response = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE id = ?`, [id]);
 
         if (response instanceof ErrorCode)
             return response;
@@ -58,7 +58,7 @@ export class CategoryRepository {
     }
 
     public async getByName(name: string): Promise<CategoryEntity | ErrorCode> {
-        const response = <CategoryEntity[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE name = ?`, [name]);
+        const response = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE name = ?`, [name]);
 
         if (response instanceof ErrorCode)
             return response;
@@ -69,8 +69,8 @@ export class CategoryRepository {
         return new CategoryEntity(response[0].id, response[0].name);
     }
 
-    public async getAll(): Promise<CategoryEntity[] | ErrorCode> {
-        const response = <CategoryEntity[] | ErrorCode>await this.db.query(`SELECT * FROM category`);
+    public async getAll(): Promise<any[] | ErrorCode> {
+        const response = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM category`);
 
         return response;
     }
@@ -84,12 +84,12 @@ export class CategoryRepository {
         if (response.affectedRows == 0)
             return new ErrorCode(404, 'Categoria não encontrada');
 
-        const categoryEntity = <CategoryEntity[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE id = ?`, [category.id]);
+        const categoryEntity = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE id = ?`, [category.id]);
 
         if (categoryEntity instanceof ErrorCode)
             return categoryEntity;
 
-        return categoryEntity[0];
+        return new CategoryEntity(categoryEntity[0].id, categoryEntity[0].name);
     }
 
     public async delete(id: string): Promise<string | ErrorCode> {

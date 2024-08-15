@@ -27,7 +27,7 @@ export class MySql {
         try {
             return (await this.pool.query(query, values))[0];
         } catch (error: any) {
-            console.error('Query: ', query);
+            console.error('Error: ', error);
             return new ErrorCode(500, 'Ocorreu um erro ao se conectar ao banco');
         }
     }
