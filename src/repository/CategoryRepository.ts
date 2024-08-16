@@ -84,12 +84,7 @@ export class CategoryRepository {
         if (response.affectedRows == 0)
             return new ErrorCode(404, 'Categoria não encontrada');
 
-        const categoryEntity = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM category WHERE id = ?`, [category.id]);
-
-        if (categoryEntity instanceof ErrorCode)
-            return categoryEntity;
-
-        return new CategoryEntity(categoryEntity[0].id, categoryEntity[0].name);
+        return await this.getByID(category.id);
     }
 
     public async delete(id: string): Promise<string | ErrorCode> {

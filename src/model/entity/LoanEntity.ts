@@ -1,32 +1,16 @@
 export class LoanEntity {
     public readonly id: string;
-    public bookID: string;
-    public userID: string;
-    private loadDate: Date;
+    public readonly bookID: string;
+    public readonly userID: string;
+    public readonly loanDate: Date;
     public returnDate: Date;
 
-    constructor(id: string, bookID: string, userID: string, loadDate: Date, returnDate: Date) {
+    constructor(id: string, bookID: string, userID: string, loanDate: Date, returnDate: Date) {
         this.id = id;
         this.bookID = bookID;
         this.userID = userID;
-        this.loadDate = loadDate;
+        this.loanDate = loanDate;
         this.returnDate = returnDate;
-    }
-
-    public get getID(): string {
-        return this.id;
-    }
-
-    public get getBookID(): string {
-        return this.bookID;
-    }
-
-    public get getUserID(): string {
-        return this.userID;
-    }
-
-    public get getLoadDate(): Date {
-        return this.loadDate;
     }
 
 }

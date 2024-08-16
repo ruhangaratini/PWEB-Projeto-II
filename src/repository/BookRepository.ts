@@ -83,12 +83,7 @@ export class BookRepository {
         if (response.affectedRows == 0)
             return new ErrorCode(404, 'Livro não encontrado');
 
-        const bookEntity = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM book WHERE id = ?`, [book.id]);
-
-        if (bookEntity instanceof ErrorCode)
-            return bookEntity;
-
-        return new BookEntity(bookEntity[0].id, bookEntity[0].categoryID, bookEntity[0].title, bookEntity[0].author);
+        return await this.getByID(book.id);
     }
 
     public async delete(id: string): Promise<string | ErrorCode> {

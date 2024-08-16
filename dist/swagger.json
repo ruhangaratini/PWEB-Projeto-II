@@ -217,6 +217,127 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"CreateLoanDto": {
+				"properties": {
+					"bookID": {
+						"type": "string"
+					},
+					"userID": {
+						"type": "string"
+					},
+					"loanDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"returnDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"bookID",
+					"userID",
+					"loanDate",
+					"returnDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoanEntity": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"bookID": {
+						"type": "string"
+					},
+					"userID": {
+						"type": "string"
+					},
+					"loanDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"returnDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"bookID",
+					"userID",
+					"loanDate",
+					"returnDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_LoanEntity_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/LoanEntity"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BaseResponseDto_LoanEntity-Array_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/LoanEntity"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoanDto": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"bookID": {
+						"type": "string"
+					},
+					"userID": {
+						"type": "string"
+					},
+					"loanDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"returnDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"bookID",
+					"userID",
+					"loanDate",
+					"returnDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"CreateCategoryDto": {
 				"properties": {
 					"name": {
@@ -814,6 +935,213 @@
 					{
 						"in": "path",
 						"name": "personID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/loan": {
+			"post": {
+				"operationId": "RegisterLoan",
+				"responses": {
+					"201": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_LoanEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Loan"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateLoanDto"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetLoans",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_LoanEntity-Array_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"500": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Loan"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "UpdateLoan",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_LoanEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Loan"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoanDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/loan/{loanID}": {
+			"get": {
+				"operationId": "GetLoanByID",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_LoanEntity_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Loan"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "loanID",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteLoan",
+				"responses": {
+					"202": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseResponseDto_string_"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BaseErrorResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Loan"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "loanID",
 						"required": true,
 						"schema": {
 							"type": "string"

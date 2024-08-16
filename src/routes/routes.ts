@@ -7,6 +7,8 @@ import { UserController } from './../controller/UserController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { PersonController } from './../controller/PersonController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { LoanController } from './../controller/LoanController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CategoryController } from './../controller/CategoryController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { BookController } from './../controller/BookController';
@@ -124,6 +126,59 @@ const models: TsoaRoute.Models = {
             "id": {"dataType":"string","required":true},
             "name": {"dataType":"string","required":true},
             "email": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CreateLoanDto": {
+        "dataType": "refObject",
+        "properties": {
+            "bookID": {"dataType":"string","required":true},
+            "userID": {"dataType":"string","required":true},
+            "loanDate": {"dataType":"datetime","required":true},
+            "returnDate": {"dataType":"datetime","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LoanEntity": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "bookID": {"dataType":"string","required":true},
+            "userID": {"dataType":"string","required":true},
+            "loanDate": {"dataType":"datetime","required":true},
+            "returnDate": {"dataType":"datetime","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "BaseResponseDto_LoanEntity_": {
+        "dataType": "refObject",
+        "properties": {
+            "message": {"dataType":"string","required":true},
+            "data": {"ref":"LoanEntity","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "BaseResponseDto_LoanEntity-Array_": {
+        "dataType": "refObject",
+        "properties": {
+            "message": {"dataType":"string","required":true},
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"LoanEntity"},"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LoanDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "bookID": {"dataType":"string","required":true},
+            "userID": {"dataType":"string","required":true},
+            "loanDate": {"dataType":"datetime","required":true},
+            "returnDate": {"dataType":"datetime","required":true},
         },
         "additionalProperties": false,
     },
@@ -546,6 +601,165 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'deletePerson',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/loan',
+            ...(fetchMiddlewares<RequestHandler>(LoanController)),
+            ...(fetchMiddlewares<RequestHandler>(LoanController.prototype.registerLoan)),
+
+            async function LoanController_registerLoan(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    dto: {"in":"body","name":"dto","required":true,"ref":"CreateLoanDto"},
+                    fail: {"in":"res","name":"400","required":true,"ref":"BaseErrorResponseDto"},
+                    success: {"in":"res","name":"201","required":true,"ref":"BaseResponseDto_LoanEntity_"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new LoanController();
+
+              await templateService.apiHandler({
+                methodName: 'registerLoan',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/loan/:loanID',
+            ...(fetchMiddlewares<RequestHandler>(LoanController)),
+            ...(fetchMiddlewares<RequestHandler>(LoanController.prototype.getLoanByID)),
+
+            async function LoanController_getLoanByID(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    loanID: {"in":"path","name":"loanID","required":true,"dataType":"string"},
+                    notFound: {"in":"res","name":"404","required":true,"ref":"BaseErrorResponseDto"},
+                    success: {"in":"res","name":"200","required":true,"ref":"BaseResponseDto_LoanEntity_"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new LoanController();
+
+              await templateService.apiHandler({
+                methodName: 'getLoanByID',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/loan',
+            ...(fetchMiddlewares<RequestHandler>(LoanController)),
+            ...(fetchMiddlewares<RequestHandler>(LoanController.prototype.getLoans)),
+
+            async function LoanController_getLoans(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    fail: {"in":"res","name":"500","required":true,"ref":"BaseErrorResponseDto"},
+                    success: {"in":"res","name":"200","required":true,"ref":"BaseResponseDto_LoanEntity-Array_"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new LoanController();
+
+              await templateService.apiHandler({
+                methodName: 'getLoans',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/loan',
+            ...(fetchMiddlewares<RequestHandler>(LoanController)),
+            ...(fetchMiddlewares<RequestHandler>(LoanController.prototype.updateLoan)),
+
+            async function LoanController_updateLoan(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    dto: {"in":"body","name":"dto","required":true,"ref":"LoanDto"},
+                    fail: {"in":"res","name":"400","required":true,"ref":"BaseErrorResponseDto"},
+                    success: {"in":"res","name":"200","required":true,"ref":"BaseResponseDto_LoanEntity_"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new LoanController();
+
+              await templateService.apiHandler({
+                methodName: 'updateLoan',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.delete('/loan/:loanID',
+            ...(fetchMiddlewares<RequestHandler>(LoanController)),
+            ...(fetchMiddlewares<RequestHandler>(LoanController.prototype.deleteLoan)),
+
+            async function LoanController_deleteLoan(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    loanID: {"in":"path","name":"loanID","required":true,"dataType":"string"},
+                    fail: {"in":"res","name":"400","required":true,"ref":"BaseErrorResponseDto"},
+                    success: {"in":"res","name":"202","required":true,"ref":"BaseResponseDto_string_"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new LoanController();
+
+              await templateService.apiHandler({
+                methodName: 'deleteLoan',
                 controller,
                 response,
                 next,

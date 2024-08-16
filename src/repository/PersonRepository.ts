@@ -75,12 +75,7 @@ export class PersonRepository {
         if (response.affectedRows == 0)
             return new ErrorCode(404, 'Pessoa não encontrada');
 
-        const personEntity = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM person WHERE id = ?`, [person.id]);
-
-        if (personEntity instanceof ErrorCode)
-            return personEntity;
-
-        return new PersonEntity(personEntity[0].id, personEntity[0].name, personEntity[0].email);
+        return await this.getByID(person.id);
     }
 
     public async delete(id: string): Promise<string | ErrorCode> {

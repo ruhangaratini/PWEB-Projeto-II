@@ -83,12 +83,7 @@ export class UserRepository {
         if (response.affectedRows == 0)
             return new ErrorCode(404, 'Usuário não encontrado');
 
-        const userEntity = <RowDataPacket[] | ErrorCode>await this.db.query(`SELECT * FROM user WHERE id = ?`, [user.id]);
-
-        if (userEntity instanceof ErrorCode)
-            return userEntity;
-
-        return new UserEntity(userEntity[0].id, userEntity[0].personID, userEntity[0].password);
+        return await this.getByID(user.id);
     }
 
     public async delete(id: string): Promise<string | ErrorCode> {
