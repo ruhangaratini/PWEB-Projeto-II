@@ -4,12 +4,14 @@ import { ErrorCode } from '../model/ErrorCode';
 export class MySql {
     private static instance: MySql;
     private pool: Pool;
-    private config = {
-        host: 'localhost',
-        port: 3306,
-        user: 'root',
-        password: 'ruhan',
-        database: 'banco'
+    private config: mysql.PoolOptions = {
+        host: process.env.DB_HOST,
+        port: parseInt(process.env.DB_PORT ?? '3306'),
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB,
+        timezone: process.env.DB_TZ,
+        dateStrings: false
     };
 
     private constructor() {
