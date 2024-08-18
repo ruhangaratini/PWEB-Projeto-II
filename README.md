@@ -13,4 +13,4 @@ Paulo, Campus Boituva
 - Documentação da API utilizando Swagger
 - Criação de um desenho de solução técnica utilizando a modelagem C4 exibindo até o nível 3
 
-Desenvolvedor: Ruhan Garatini
+Desenvolvedor: Ruhan Garatini | 18/08/2024
