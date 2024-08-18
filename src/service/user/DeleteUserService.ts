@@ -1,8 +1,8 @@
 import { ErrorCode } from "../../model/ErrorCode";
 import { UserRepository } from "../../repository/UserRepository";
 
-export async function deleteUserService(bookID: string): Promise<string | ErrorCode> {
+export async function deleteUserService(userID: string): Promise<string | ErrorCode> {
     const repository = UserRepository.getInstance();
 
-    return await repository.delete(bookID);
+    return await repository.delete(userID);
 }
